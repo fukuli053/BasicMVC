@@ -107,6 +107,20 @@ class Model
         foreach ($this->_columnNames as $column) {
             $data->column =  $this->column;
         }
+        return $data;
+    }
+
+    public function assign($params)
+    {
+        if (!empty($params)) {
+            foreach ($params as $key => $value) {
+                if (in_array($key, $this->_columnNames)) {
+                    $this->$key = sanitize($value);
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     protected function populateObjData($result)

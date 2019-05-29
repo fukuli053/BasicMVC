@@ -3,7 +3,7 @@
 define('DEBUG', true);
 
 define('DB_HOST', 'localhost');         //Database Host
-define('DB_NAME', 'test');              //Database Name
+define('DB_NAME', 'emlak');              //Database Name
 define('DB_USERNAME', 'root');          //Database User
 define('DB_PASSWORD', '');              //Database Password
 
