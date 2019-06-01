@@ -28,7 +28,7 @@ class Users extends Model
 
     public function findByUsername($username)
     {
-        return $this->_db->findFirst('users', ['conditions' => 'username = ?', 'bind' => [$username]]);
+        return self::findFirst(['conditions' => 'username = ?', 'bind' => [$username]]);
     }
 
     public function login($rememberMe = false)
