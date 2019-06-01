@@ -13,3 +13,7 @@ define('DEFAULT_LAYOUT', 'default');    //If no layout set in the controller use
 define('SROOT', '/dinceremlak/');       //Set this to '/' if live server
 
 define('SITE_TITLE', 'MVC');         //Default Site Title is "MVC"
+
+define('CURRENT_USER_SESSION_NAME', 'denemesession');   //session name for logged user
+define('REMEMBER_ME_COOKIE_NAME', 'denemerememberme');  //cookie name for logged user in user remember me
+define('REMEMBER_ME_COOKIE_EXPIRY', 604800);            //cookie time for logged user in user remember me(30 days)

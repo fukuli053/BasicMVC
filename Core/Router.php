@@ -11,7 +11,7 @@ class Router
         array_shift($url);
 
         //Action
-        $action = (isset($url[0]) && $url[0] != '') ?  $url[0] . 'Action' : 'indexAction';
+        $action = (isset($url[0]) && $url[0] != '') ? $url[0] . 'Action' : 'indexAction';
         $action_name = $controller;
         array_shift($url);
 
@@ -24,6 +24,22 @@ class Router
             call_user_func_array([$dispatch, $action], $queryParams);
         } else {
             die("This method does not exist in the controller. \"" . $controller_name . "\"");
+        }
+    }
+
+    public static function redirect($location)
+    {
+        if (!headers_sent()) {
+            header('Location: ' . SROOT . $location);
+            exit();
+        } else {
+            echo '<script type="text/javascript">';
+            echo 'window.location.href="' . SROOT . $location . '";';
+            echo '</script>';
+            echo '<noscript>';
+            echo '<meta http-equiv="refresh" content="0;url=' . $location . '" />';
+            echo '</noscript>';
+            exit;
         }
     }
 }
