@@ -10,6 +10,7 @@ class Home extends Controller
 
     public function indexAction()
     {
+        print_r($_COOKIE);
         $this->view->render("Home/index");
     }
 }

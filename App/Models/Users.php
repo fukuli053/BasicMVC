@@ -31,6 +31,15 @@ class Users extends Model
         return self::findFirst(['conditions' => 'username = ?', 'bind' => [$username]]);
     }
 
+    public function registerNewUser($params)
+    {
+        $this->assign($params);
+        $this->deleted = 0;
+        $this->created_at = date('d.m.Y H:i:s');
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+        $this->save();
+    }
+
     public function login($rememberMe = false)
     {
         Session::set($this->_sessionName, $this->id);
@@ -42,5 +51,38 @@ class Users extends Model
             $this->_db->query("DELETE FROM user_sessions WHERE user_id = ? AND user_agent = ?", [$this->id, $user_agent]);
             $this->_db->insert('user_sessions', $fields);
         }
+    }
+
+    public static function currentLoggedInUser()
+    {
+        if (!isset(self::$currentLoggedInUser) && Session::exists(CURRENT_USER_SESSION_NAME)) {
+            $U = new Users((int)Session::get(CURRENT_USER_SESSION_NAME));
+            self::$currentLoggedInUser = $U;
+        }
+        return self::$currentLoggedInUser;
+    }
+
+    public static function loginUserFromCookie()
+    {
+        $userSession = UserSessions::getFromCookie();
+        if ($userSession->user_id != '') {
+            $user = new self((int)$userSession->user_id);
+        }
+        if ($user) {
+            $user->login();
+        }
+        return $user;
+    }
+
+    public function logout()
+    {
+        $userSession = UserSessions::getFromCookie();
+        if ($userSession) $userSession->delete();
+        Session::delete(CURRENT_USER_SESSION_NAME);
+        if (Cookie::exists(REMEMBER_ME_COOKIE_NAME)) {
+            Cookie::delete(REMEMBER_ME_COOKIE_NAME);
+        }
+        self::$currentLoggedInUser = null;
+        return true;
     }
 }
