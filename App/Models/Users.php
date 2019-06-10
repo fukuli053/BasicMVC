@@ -85,4 +85,11 @@ class Users extends Model
         self::$currentLoggedInUser = null;
         return true;
     }
+
+    public function acls()
+    {
+        if(empty($this->acl)) return [];
+        return json_decode($this->acl, true);
+    }
+
 }

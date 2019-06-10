@@ -1,0 +1,12 @@
+{
+    "Home" : "home",
+    "Tools" : {
+        "My Tools" : "tools",
+        "Tool 1" : "tools/first",
+        "Tool 2" : "tools/second",
+        "Seperator" : "",
+        "Tool 3" : "tools/third"
+    },
+    "Google" : "http://google.com"
+
+}
