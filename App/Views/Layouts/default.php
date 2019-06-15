@@ -18,7 +18,10 @@
 </head>
 
 <body>
-    <?= $this->content('body'); ?>
+    <?php include('navbar.php'); ?>
+    <div class="container">
+        <?= $this->content('body'); ?>
+    </div>
 </body>
 
 </html>

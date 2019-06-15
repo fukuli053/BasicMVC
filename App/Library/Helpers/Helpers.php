@@ -26,3 +26,12 @@ function posted_values($post)
     }
     return $clean_array;
 }
+
+function currentPage()
+{
+    $currentPage = $_SERVER["REQUEST_URI"];
+    if($currentPage == SROOT || $currentPage == SROOT.'home/index'){
+        $currentPage = SROOT .  'home';
+    }
+    return $currentPage;
+}

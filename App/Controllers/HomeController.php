@@ -1,6 +1,6 @@
 <?php
 
-class Home extends Controller
+class HomeController extends Controller
 {
 
     public function __construct($controller, $action)
@@ -10,7 +10,7 @@ class Home extends Controller
 
     public function indexAction()
     {
-        print_r($_COOKIE);
         $this->view->render("Home/index");
     }
+
 }
