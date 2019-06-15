@@ -7,6 +7,10 @@
         "separator" : "",
         "Tool 3" : "tools/third"
     },
+    "Contacts" : {
+        "My Contacts" : "contacts",
+        "Add Contact" : "contacts/add"
+    },
     "Google" : "http://google.com",
     "Deneme Link" : "http://deneme.com",
     "Login" : "register/login",

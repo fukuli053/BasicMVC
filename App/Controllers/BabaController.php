@@ -1,6 +1,6 @@
 <?php
 
-class ToolsController extends Controller
+class BabaController extends Controller
 {
     public function __construct($controller, $action)
     {
