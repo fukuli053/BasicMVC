@@ -12,6 +12,7 @@
     <div class="row">
         <div class="col-md-12">
             <form action="<?= SROOT ?>register/login" method="POST">
+                <?= FH::csrfInput(); ?>
                 <?=$this->displayErrors?>
                 <div class="form-group">
                     <label for="username">Kullanıcı Adı</label>

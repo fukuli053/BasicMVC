@@ -26,7 +26,7 @@ class RegisterController extends Controller
                     'min' => 6,
                     'max' => 8
                 ]
-            ]);
+                ], true);
             if ($validation->isPassed()) {
                 $user = $this->UsersModel->findByUserName($_POST['username']);
                 if ($user && password_verify(Input::get('password'), $user->password)) {
@@ -89,7 +89,7 @@ class RegisterController extends Controller
                     'max' => 150,
                     'valid_email' => true
                 ]
-            ]);
+                ],true);
 
             if ($validation->isPassed()) {
                 $newUser = new Users();

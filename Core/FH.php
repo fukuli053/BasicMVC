@@ -1,9 +1,11 @@
 <?php 
 
-    function inputBlock($type, $label, $name, $value='', $inputAttrs=[], $divAttrs=[])
+class FH {
+
+    public static function inputBlock($type, $label, $name, $value='', $inputAttrs=[], $divAttrs=[])
     {   
-        $divString = attrsToString($divAttrs);
-        $inputString = attrsToString($inputAttrs);
+        $divString = self::attrsToString($divAttrs);
+        $inputString = self::attrsToString($inputAttrs);
         $html = '<div ' . $divString . '>';
         $html .= '<label for="'.$name.'">' . $label . '</label>';
         $html .= '<input '. $inputString .' type="'.$type.'" name="'.$name.'" id="'.$name.'" value="'.$value.'" />'; 
@@ -20,23 +22,23 @@
      * @param  array       $divAttrs   (optional) Atributes for surrounding div
      * @return string                  Returns an html string for submit block
      */
-    function submitBlock($buttonText, $inputAttrs=[], $divAttrs=[]){
-        $divString = attrsToString($divAttrs);
-        $inputString = attrsToString($inputAttrs);
+    public static function submitBlock($buttonText, $inputAttrs=[], $divAttrs=[]){
+        $divString = self::attrsToString($divAttrs);
+        $inputString = self::attrsToString($inputAttrs);
         $html = '<div'.$divString.'>';
         $html .= '<input type="submit" value="'.$buttonText.'"'.$inputString.' />';
         $html .= '</div>';
         return $html;
     }
 
-    function submitTag($buttonText, $inputAttrs)
+    public static function submitTag($buttonText, $inputAttrs)
     {
-        $inputString = attrsToString($inputAttrs);
+        $inputString = self::attrsToString($inputAttrs);
         $html = '<input type="button"' .$inputString. ' value="'. $buttonText . '"/>';
         return $html;
     }
 
-    function attrsToString($attrs)
+    public static function attrsToString($attrs)
     {
         $string = '';
         foreach($attrs as $key => $value){
@@ -44,3 +46,25 @@
         }
         return $string;
     }
+
+    public static function generateToken()
+    {
+        $token = base64_encode(openssl_random_pseudo_bytes(32));
+        Session::set('csrf_token', $token);
+        return $token;
+    }
+
+    public static function checkToken($token)
+    {
+        return (Session::exists('csrf_token') && (Session::get('csrf_token') == $token));
+    }
+
+    public static function csrfInput()
+    {
+        $input = FH::inputBlock('hidden', '', 'csrf_token',self::generateToken());
+        return $input;
+    }
+
+}
+
+?>
