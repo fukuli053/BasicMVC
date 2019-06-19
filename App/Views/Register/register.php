@@ -3,8 +3,8 @@
 <?php $this->start('head'); ?>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
 <?php $this->end(); ?>
-<div class="container">
-    <div class="card bg-light">
+<?php $this->start('body'); ?>
+<div class="card bg-light">
         <article class="card-body mx-auto" style="max-width: 400px;">
             <h4 class="card-title mt-3 text-center">Create Account</h4>
             <p class="text-center">Get started with your free account</p>
@@ -49,9 +49,6 @@
             </form>
         </article>
     </div> <!-- card.// -->
-
-</div>
 <!--container end.//-->
-<?php $this->start('body'); ?>
 
 <?php $this->end(); ?>

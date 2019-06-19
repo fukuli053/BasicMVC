@@ -2,6 +2,7 @@
 
     class Contacts extends Model {
 
+        public $id, $user_id, $fname, $lname, $email, $telephone;
         public $deleted = 0;
 
         public function __construct() {
