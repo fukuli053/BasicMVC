@@ -109,6 +109,7 @@ class Validate
     public function displayErrors()
     {
         $html = '<div class="alert alert-danger">';
+        $html.= '<ul>';
         foreach ($this->_errors as $error) {
             if (is_array($error)) {
                 $html .= '<li>' . $error[0] . '<li>';
@@ -116,6 +117,7 @@ class Validate
                 $html .= '<li>' . $error . '<li>';
             }
         }
+        $html .= '</ul>';
         $html .= '</div>';
         return $html;
     }

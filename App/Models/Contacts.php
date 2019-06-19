@@ -7,7 +7,7 @@
         public function __construct() {
             $table = 'contacts';
             parent::__construct($table);
-            $this->_softDelete = true;
+            $this->_softDelete = false;
         }
 
         public static $addValidation = [
@@ -39,6 +39,16 @@
         public function FullName()
         {
             return $this->fname . ' ' . $this->lname;
+        }
+
+        public function findByIdAndUserId($contact_id, $user_id, $params=[])
+        {
+            $conditions = [
+                'conditions' => 'id = ? AND user_id = ?',
+                'bind' => [$contact_id, $user_id]
+            ];
+            $conditions = array_merge($conditions,$params);
+            return $this->findFirst($conditions);
         }
 
     }

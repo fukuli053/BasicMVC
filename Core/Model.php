@@ -48,8 +48,9 @@ class Model
         $result = new $this->_modelName($this->_table);
         if ($resultsQuery) {
             $result->populateObjData($resultsQuery);
+        }else{
+            $result = false;
         }
-        $result->populateObjData($resultsQuery);
         return $result;
     }
 
