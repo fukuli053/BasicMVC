@@ -11,7 +11,7 @@ class ContactsController extends Controller {
 
     public function indexAction()
     {
-        $contacts = $this->ContactsModel->findAllByUserId(currentUser()->id,["order" => "fname, lname"]);
+        $contacts = $this->ContactsModel->findAllByUserId(Users::currentUser()->id,["order" => "fname, lname"]);
         $this->view->contacts = $contacts;
         $this->view->render("Contact/index");
     }
@@ -24,7 +24,7 @@ class ContactsController extends Controller {
             $contact->assign($_POST);
             $validation->check($_POST, Contacts::$addValidation);
             if($validation->isPassed()){
-                $contact->user_id = currentUser()->id;
+                $contact->user_id = Users::currentUser()->id;
                 $contact->save();
                 Router::redirect('contacts');
             }
@@ -35,7 +35,7 @@ class ContactsController extends Controller {
 
     public function detailsAction($id)
     {
-        $contact = $this->ContactsModel->findByIdAndUserId((int)$id, currentUser()->id);
+        $contact = $this->ContactsModel->findByIdAndUserId((int)$id, Users::currentUser()->id);
         if(!$contact){
             Router::redirect('contacts');
         }
@@ -45,7 +45,7 @@ class ContactsController extends Controller {
 
     public function deleteAction($id)
     {
-        $contact = $this->ContactsModel->findByIdAndUserId((int)$id, currentUser()->id);
+        $contact = $this->ContactsModel->findByIdAndUserId((int)$id, Users::currentUser()->id);
         if($contact){
             $contact->delete();
         }
@@ -53,7 +53,7 @@ class ContactsController extends Controller {
     }
 
     public function editAction($id){
-        $contact = $this->ContactsModel->findByIdAndUserId((int)$id, currentUser()->id);
+        $contact = $this->ContactsModel->findByIdAndUserId((int)$id, Users::currentUser()->id);
         if(!$contact){
             Router::redirect('contacts');
         }

@@ -44,8 +44,8 @@ class RegisterController extends Controller
 
     public function logoutAction()
     {
-        if (currentUser()) {
-            currentUser()->logout();
+        if (Users::currentUser()) {
+            Users::currentUser()->logout();
         }
         Router::redirect('register/login');
     }
@@ -54,7 +54,7 @@ class RegisterController extends Controller
     {
         $validation = new Validate();
         if ($_POST) {
-            $posted_values = posted_values($_POST);
+            $posted_values = FH::posted_values($_POST);
             $validation->check($_POST, [
                 'fname' => [
                     'display' => 'First Name',

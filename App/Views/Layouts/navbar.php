@@ -1,6 +1,6 @@
 <?php 
     $menu = Router::getMenu('menu_acl');
-    $currentPage = currentPage();
+    $currentPage = Helpers::currentPage();
 ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">Navbar</a>
@@ -37,8 +37,8 @@
       <?php endforeach ?>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <?php if(currentUser()) :?>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hoşgeldin, <?= currentUser()->fname ?></button>
+      <?php if(Users::currentUser()) :?>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hoşgeldin, <?= Users::currentUser()->fname ?></button>
       <?php endif; ?>
     </form>
   </div>
