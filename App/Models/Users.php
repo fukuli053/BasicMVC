@@ -3,7 +3,7 @@
 class Users extends Model
 {
     public $id, $username, $email, $password, $fname, $lname, $telephone, $acl, $deleted = 0;
-    private $_isLoggedIn, $_sessionName, $_cookieName;
+    private $_isLoggedIn, $_sessionName, $_cookieName, $_confirm;
     public static $currentLoggedInUser = null;
 
     public function __construct($user = '')
@@ -27,18 +27,29 @@ class Users extends Model
         }
     }
 
+    public function validator()
+    {
+        $this->runValidation(new MinimumValidator($this ,['field' => 'username', 'rule' => 4, 'message' => 'Kullanıcı adı minimum 6 karakter olmalıdır.']));
+        $this->runValidation(new RequiredValidator($this ,['field' => 'username', 'message' => 'Kullanıcı adı boş bırakılmaz']));
+        $this->runValidation(new Unique($this, ['field' => 'username', 'message' => 'Bu kullanıcı adı zaten alınmış. Başka bir kullanıcı adı deneyin.']));
+        // $this->runValidation(new NumericValidator($this, ['field' => 'password', "message" => "sadece rakam olmalı"]));
+        // $this->runValidation(new MaximumValidator($this ,['field' => 'username', 'rule' => 2, 'message' => 'Maksimum 2 karakter olmak zorunda']));
+
+        $this->runValidation(new EmailValidator($this ,['field' => 'email', 'message' => 'Lütfen geçerli bir e-posta adresi giriniz.']));
+
+        $this->runValidation(new RequiredValidator($this, ['field' => 'password', "message" => "Lütfen şifre alanını boş bırakmayınız."]));
+        $this->runValidation(new MatchesValidator($this, ['field' => 'password', "rule" => $this->_confirm, "message" => "Girdiğiniz şifreler eşleşmiyor."]));
+        $this->runValidation(new MinimumValidator($this ,['field' => 'password', 'rule' => 6, 'message' => 'Şifreniz minimum 6 karakter olmalıdır.']));
+    }
+
+    public function beforeSave()
+    {
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+    }
+
     public function findByUsername($username)
     {
         return self::findFirst(['conditions' => 'username = ?', 'bind' => [$username]]);
-    }
-
-    public function registerNewUser($params)
-    {
-        $this->assign($params);
-        $this->deleted = 0;
-        $this->created_at = date('d.m.Y H:i:s');
-        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
-        $this->save();
     }
 
     public function login($rememberMe = false)
@@ -91,6 +102,16 @@ class Users extends Model
     {
         if(empty($this->acl)) return [];
         return json_decode($this->acl, true);
+    }
+
+    public function setConfirm($value)
+    {
+        $this->_confirm = $value;
+    }
+
+    public function getConfirm()
+    {
+        return $this->_confirm;
     }
 
 }

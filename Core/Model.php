@@ -1,7 +1,8 @@
 <?php
+
 class Model
 {
-    protected $_db, $_table, $_modelName, $_softDelete = false;
+    protected $_db, $_table, $_modelName, $_softDelete = false, $_validates = true, $_validationErrors = [];
     public $id;
 
     public function __construct($table)
@@ -56,13 +57,22 @@ class Model
 
     public function save()
     {
-        $fields = Helpers::getObjectProperties($this);
-        //determinate whether to isnert or update
-        if (property_exists($this, 'id') && $this->id != '') {
-            return $this->update($this->id, $fields);
-        } else {
-            return $this->insert($fields);
+        $this->validator();
+        if($this->_validates){
+            $this->beforeSave();
+            $fields = Helpers::getObjectProperties($this);
+            //determinate whether to isnert or update
+            if (property_exists($this, 'id') && $this->id != '') {
+                $save = $this->update($this->id, $fields);
+                $this->afterSave();
+                return $save;
+            } else {
+                $save = $this->insert($fields);
+                $this->afterSave();
+                return $save;
+            }
         }
+        return false;
     }
 
     public function insert($fields)
@@ -112,7 +122,7 @@ class Model
         if (!empty($params)) {
             foreach ($params as $key => $value) {
                 if (property_exists($this,$key)) {
-                    $this->$key = FH::sanitize($value);
+                    $this->$key = $value;
                 }
             }
             return true;
@@ -126,4 +136,42 @@ class Model
             $this->$key = $val;
         }
     }
+
+    public function validator(){}
+
+    public function runValidation($validator)
+    {
+        $key = $validator->field;
+        if (!$validator->success) {
+            $this->_validates = false;
+            $this->_validationErrors[$key] = $validator->message; 
+        }
+    }
+
+    public function getErrorMessages()
+    {
+        return $this->_validationErrors;
+    }
+
+    public function validationPasses()
+    {
+        return $this->_validates;
+    }
+
+    public function addErrorMessage($field, $message)
+    {
+        $this->_validates = false;
+        $this->_validationErrors[$field] = $message;
+    }
+
+    public function beforeSave()
+    {
+        
+    }
+
+    public function afterSave()
+    {
+        
+    }
+
 }

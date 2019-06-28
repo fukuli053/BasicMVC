@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <form action="<?= SROOT ?>register/login" method="POST">
                 <?= FH::csrfInput(); ?>
-                <?=$this->displayErrors?>
+                <?= FH::displayErrors($this->displayErrors); ?>
                 <div class="form-group">
                     <label for="username">Kullanıcı Adı</label>
                     <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Kullanıcı adı girin">

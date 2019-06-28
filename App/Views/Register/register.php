@@ -8,9 +8,9 @@
         <article class="card-body mx-auto" style="max-width: 400px;">
             <h4 class="card-title mt-3 text-center">Create Account</h4>
             <p class="text-center">Get started with your free account</p>
-            <?= $this->displayErrors ?>
             <form action="" method="POST">
                 <?= FH::csrfInput(); ?>
+                <?= FH::displayErrors($this->displayErrors); ?>
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-user"></i> </span>
@@ -28,7 +28,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                     </div>
-                    <input name="email" id="email" class="form-control" placeholder="Email address" type="email">
+                    <input name="email" id="email" class="form-control" placeholder="Email address" type="text">
                 </div> <!-- form-group// -->
 
                 <div class="form-group input-group">

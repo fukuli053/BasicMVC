@@ -2,7 +2,6 @@
 
 class Router
 {
-
     public static function route($url)
     {
         //Controller 
@@ -26,7 +25,6 @@ class Router
 
         //Params
         $queryParams = $url;
-
         $dispatch = new $controller($controller_name, $action);
 
         if (method_exists($controller, $action)) {
