@@ -1,5 +1,9 @@
 <?php 
 
+namespace App\Models;
+use Core\Model;
+use Core\Validators\RequiredValidator;
+
 class Contacts extends Model {
 
     public $id, $user_id, $fname, $lname, $email, $telephone;
@@ -11,20 +15,12 @@ class Contacts extends Model {
         $this->_softDelete = false;
     }
 
-    public static $addValidation = [
-        'fname' =>[
-            "display" => "Ad",
-            "required" => true
-        ],
-        "lname" => [
-            "display" => "Soyad",
-            "required" => true
-        ],
-        "email" => [
-            "display" => "E-Posta",
-            "valid_email" => true
-        ]
-    ];
+    public function validator()
+    {
+        $this->runValidation(new RequiredValidator($this, ['field' => 'fname', "message" => "Lütfen ad alanını boş bırakmayınız."]));
+        $this->runValidation(new RequiredValidator($this, ['field' => 'lname', "message" => "Lütfen soyad alanını boş bırakmayınız."]));
+        $this->runValidation(new RequiredValidator($this, ['field' => 'email', "message" => "Lütfen E-Posta alanını boş bırakmayınız."]));
+    }
 
     public function findAllByUserId($user_id, $params = [])
     {

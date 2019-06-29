@@ -1,5 +1,8 @@
 <?php 
 
+namespace Core\Validators;
+use Core\Validators\CustomValidator;
+
 class MaximumValidator extends CustomValidator{
 
     public function runValidation()

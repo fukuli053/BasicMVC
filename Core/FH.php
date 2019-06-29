@@ -1,5 +1,8 @@
 <?php 
 
+namespace Core;
+use Core\Session;
+
 class FH {
 
     public static function inputBlock($type, $label, $name, $value='', $inputAttrs=[], $divAttrs=[])
@@ -79,7 +82,7 @@ class FH {
 
     public static function csrfInput()
     {
-        $input = FH::inputBlock('hidden', '', 'csrf_token',self::generateToken());
+        $input = self::inputBlock('hidden', '', 'csrf_token',self::generateToken());
         return $input;
     }
 

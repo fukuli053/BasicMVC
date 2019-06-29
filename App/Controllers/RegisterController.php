@@ -1,5 +1,11 @@
 <?php
 
+namespace App\Controllers;
+use Core\Controller;
+use Core\Router;
+use App\Models\Users;
+use App\Models\Login;
+
 class RegisterController extends Controller
 {
     public function __construct($controller, $action)
@@ -24,7 +30,7 @@ class RegisterController extends Controller
                     $user->login($remember);
                     Router::redirect('');
                 } else {
-                    $loginModel->addError('username',"There is an error at your username or password.");
+                    $loginModel->addErrorMessage('username',"There is an error at your username or password.");
                 }
             }
         }

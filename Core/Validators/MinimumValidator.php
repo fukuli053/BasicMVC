@@ -1,4 +1,8 @@
 <?php
+
+namespace Core\Validators;
+use Core\Validators\CustomValidator;
+
 class MinimumValidator extends CustomValidator {
     
     public function runValidation()

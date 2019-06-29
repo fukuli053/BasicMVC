@@ -1,10 +1,12 @@
+<?php use Core\FH; ?>
 <?php $this->setSiteTitle($this->contact->FullName() . ' Düzenle'); ?>
 
 
 <?php $this->start('body'); ?>
 <h1 class="text-center"><?= $this->contact->FullName() . ' adlı kişinin bilgilerini düzenle' ?></h1>
-<div class="bg-danger form-errors"><?= $this->displayErrors ?></div>
 <form class="form" action="<?= $this->postAction ?>" method="POST">
+    <?= FH::csrfInput(); ?>
+    <?= FH::displayErrors($this->displayErrors); ?>
     <?= FH::inputBlock('text','Ad', 'fname', $this->contact->fname, ["class" => "form-control"]); ?>
     <?= FH::inputBlock('text','Soyad', 'lname', $this->contact->lname, ["class" => "form-control"]); ?>
     <?= FH::inputBlock('email','E-Posta', 'email', $this->contact->email, ["class" => "form-control"]); ?>

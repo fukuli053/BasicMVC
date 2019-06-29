@@ -1,5 +1,17 @@
 <?php
 
+namespace App\Models;
+use Core\Model;
+use Core\Session;
+use Core\Cookie;
+use Core\Validators\RequiredValidator;
+use Core\Validators\MinimumValidator;
+use Core\Validators\EmailValidator;
+use Core\Validators\Unique;
+use Core\Validators\MatchesValidator;
+use App\Models\UserSessions;
+use App\Models\Users;
+
 class Users extends Model
 {
     public $id, $username, $email, $password, $fname, $lname, $telephone, $acl, $deleted = 0;
@@ -15,9 +27,9 @@ class Users extends Model
         $this->_softDelete = true;
         if ($user != '') {
             if (is_int($user)) {
-                $u = $this->_db->findFirst($table, ['conditions' => 'id = ?', 'bind' => [$user]], 'Users');
+                $u = $this->_db->findFirst($table, ['conditions' => 'id = ?', 'bind' => [$user]], 'App\Models\Users');
             } else {
-                $u = $this->_db->findFirst($table, ['conditions' => 'username = ?', 'bind' => [$user]], 'Users');
+                $u = $this->_db->findFirst($table, ['conditions' => 'username = ?', 'bind' => [$user]], 'App\Models\Users');
             }
             if ($u) {
                 foreach ($u as $key => $value) {
@@ -32,10 +44,9 @@ class Users extends Model
         $this->runValidation(new MinimumValidator($this ,['field' => 'username', 'rule' => 4, 'message' => 'Kullanıcı adı minimum 6 karakter olmalıdır.']));
         $this->runValidation(new RequiredValidator($this ,['field' => 'username', 'message' => 'Kullanıcı adı boş bırakılmaz']));
         $this->runValidation(new Unique($this, ['field' => 'username', 'message' => 'Bu kullanıcı adı zaten alınmış. Başka bir kullanıcı adı deneyin.']));
-        // $this->runValidation(new NumericValidator($this, ['field' => 'password', "message" => "sadece rakam olmalı"]));
-        // $this->runValidation(new MaximumValidator($this ,['field' => 'username', 'rule' => 2, 'message' => 'Maksimum 2 karakter olmak zorunda']));
-
+        
         $this->runValidation(new EmailValidator($this ,['field' => 'email', 'message' => 'Lütfen geçerli bir e-posta adresi giriniz.']));
+        $this->runValidation(new RequiredValidator($this ,['field' => 'email', 'message' => 'E-posta adresi boş bırakılmaz']));
 
         $this->runValidation(new RequiredValidator($this, ['field' => 'password', "message" => "Lütfen şifre alanını boş bırakmayınız."]));
         $this->runValidation(new MatchesValidator($this, ['field' => 'password', "rule" => $this->_confirm, "message" => "Girdiğiniz şifreler eşleşmiyor."]));

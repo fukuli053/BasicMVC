@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Models;
+use Core\Model;
+use Core\Session;
+use Core\Cookie;
+
 class UserSessions extends Model
 {
     public $id,$user_id,$session,$user_agent; 

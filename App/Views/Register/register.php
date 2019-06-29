@@ -1,3 +1,4 @@
+<?php use Core\FH; ?>
 <?php $this->setSiteTitle("Üye Ol"); ?>
 
 <?php $this->start('head'); ?>
